@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                 val adapterListView =
                     ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, equipos)
                 listView.adapter = adapterListView
+                adapter.notifyDataSetChanged()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
