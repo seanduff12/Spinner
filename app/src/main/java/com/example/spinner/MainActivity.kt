@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private val uruguay =
         listOf("Nacional", "Peñarol", "Defensor Sporting", "Danubio", "Montevideo City Torque")
 
+    private val equipos = mutableListOf<String>()
+    private lateinit var adapterListView: ArrayAdapter<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, paises)
         spinner.adapter = adapter
 
+        adapterListView = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, equipos)
+        listView.adapter = adapterListView
+
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -44,22 +50,20 @@ class MainActivity : AppCompatActivity() {
                 id: Long
             ) {
                 paisSeleccionado = paises[position]
-                val equipos = when (paisSeleccionado) {
-                    "Colombia" -> colombia
-                    "Argentina" -> argentina
-                    "Uruguay" -> uruguay
-                    else -> emptyList()
-                }
-
-                val adapterListView =
-                    ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, equipos)
-                listView.adapter = adapterListView
-                adapter.notifyDataSetChanged()
+                equipos.clear()
+                equipos.addAll(
+                    when (paisSeleccionado) {
+                        "Colombia" -> colombia
+                        "Argentina" -> argentina
+                        "Uruguay" -> uruguay
+                        else -> emptyList()
+                    }
+                )
+                adapterListView.notifyDataSetChanged()
             }
-
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
             }
         }
     }
 }
+
